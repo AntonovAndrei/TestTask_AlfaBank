@@ -36,7 +36,7 @@ namespace AlfaBank.DataAccess
                     // Checking whether the database contains records
                     command.CommandText = "Select COUNT(*) FROM Users";
                     bool isDbHaveData = false;
-                    if(Convert.ToInt32(command.ExecuteScalar()) == 0) isDbHaveData = true;
+                    if(Convert.ToInt32(command.ExecuteScalar()) >= 1) isDbHaveData = true;
 
                     if (!isDbHaveData)
                     {
@@ -49,7 +49,7 @@ namespace AlfaBank.DataAccess
                             "('Sidovrov Sidr Sidorovich', 'sidr@google.com', date('now'), 0)," +
                             "('Dmitriy Agafonov Vasilievich', 'dmitriy@google.com', '2021-10-15', 0)," +
                             "('Volkiv Volk Volkovich', 'auf@google.com', '2021-01-21', 0)," +
-                            "('Trofimov Trofim Trofimovich', 'trofim@google.com', date('now'), 0),";
+                            "('Trofimov Trofim Trofimovich', 'trofim@google.com', date('now'), 0);";
                         command.ExecuteNonQuery();
                     }
                 }

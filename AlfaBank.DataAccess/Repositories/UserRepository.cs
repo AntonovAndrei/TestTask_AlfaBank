@@ -19,10 +19,8 @@ namespace AlfaBank.DataAccess.Repositories
             {
                 using (var command = new SQLiteCommand(connection))
                 {
-                    string sqlCommand = "INSERT INTO Users (FullName, Login, RegistrationDate) VALUES " +
+                    command.CommandText = "INSERT INTO Users (FullName, Login, RegistrationDate) VALUES " +
                         "(@FullName, @Login, @RegistrationDate)";
-
-                    command.CommandText = sqlCommand;
                     command.Parameters.Add(new SQLiteParameter("@FullName", user.FullName));
                     command.Parameters.Add(new SQLiteParameter("@Login", user.Login));
                     command.Parameters.Add(new SQLiteParameter("@RegistrationDate", user.RegistrationDate));
@@ -39,10 +37,8 @@ namespace AlfaBank.DataAccess.Repositories
             {
                 using (var command = new SQLiteCommand(connection))
                 {
-                    var sqlCommand = "INSERT INTO Users (FullName, Login, RegistrationDate) VALUES " +
+                    command.CommandText = "INSERT INTO Users (FullName, Login, RegistrationDate) VALUES " +
                         "(@FullName, @Login, @RegistrationDate)";
-
-                    command.CommandText = sqlCommand;
                     command.Parameters.Add(new SQLiteParameter("@FullName", user.FullName));
                     command.Parameters.Add(new SQLiteParameter("@Login", user.Login));
                     command.Parameters.Add(new SQLiteParameter("@RegistrationDate", user.RegistrationDate));
@@ -53,7 +49,114 @@ namespace AlfaBank.DataAccess.Repositories
             }
         }
 
-        public void AddRange(IEnumerable<User> users)
+        // tohe podravit kak i s fukkname
+        public User Get(int id)
+        {
+            var user = new User();
+
+            using (var connection = new SQLiteConnection(_db.DatabaseSource))
+            {
+                using (var command = new SQLiteCommand(connection))
+                {
+                    command.CommandText = "Select * FROM Users WHERE ID = @ID";
+                    command.Parameters.Add(new SQLiteParameter("@ID", id));
+
+                    connection.Open();
+                    var dataReader = command.ExecuteReader();
+
+                    while (dataReader.Read())
+                    {
+                        try
+                        {
+                            user.Id = dataReader.GetInt32(0);
+                            user.FullName = dataReader.GetString(1);
+                            user.Login = dataReader.GetString(2);
+                            user.RegistrationDate = dataReader.GetDateTime(3);
+                            user.IsDeleted = dataReader.GetInt32(4) == 0 ? false : true;
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Error: " + ex.Message);
+                        }
+                    }
+                }
+            }
+
+            return user;
+        }
+
+        // ne rabotaet
+        public User Get(string fullName)
+        {
+            var user = new User();
+
+            using (var connection = new SQLiteConnection(_db.DatabaseSource))
+            {
+                using (var command = new SQLiteCommand(connection))
+                {
+                    command.CommandText = "Select * FROM Users WHERE FullName = '@FullName';";
+                    command.Parameters.Add(new SQLiteParameter("@FullName", fullName));
+
+                    connection.Open();
+                    var dataReader = command.ExecuteReader();
+
+                    while (dataReader.Read())
+                    {
+                        try
+                        {
+                            user.Id = dataReader.GetInt32(0);
+                            user.FullName = dataReader.GetString(1);
+                            user.Login = dataReader.GetString(2);
+                            user.RegistrationDate = dataReader.GetDateTime(3);
+                            user.IsDeleted = dataReader.GetInt32(4) == 0 ? false : true;
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Error: " + ex.Message);
+                        }
+                    }
+                }
+            }
+
+            return user;
+        }
+
+        // ne rabotaet
+        public void Delete(User user)
+        {
+            using (var connection = new SQLiteConnection(_db.DatabaseSource))
+            {
+                using (var command = new SQLiteCommand(connection))
+                { 
+                    command.CommandText = "UPDATE Users SET IsDeleted = 1 WHERE FullName = '@FullName';";
+                    command.Parameters.Add(new SQLiteParameter("@FullName", user.FullName));
+
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                } 
+            }
+        }
+
+        // ne rabotaet
+        public User Delete(int id)
+        {
+            using (var connection = new SQLiteConnection(_db.DatabaseSource))
+            {
+                using (var command = new SQLiteCommand(connection))
+                {
+                    command.CommandText = "UPDATE Users SET IsDeleted = 1 WHERE ID = @ID;";
+                    command.Parameters.Add(new SQLiteParameter("@ID", id));
+
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
+            }
+
+            return Get(id);
+        }
+
+        //System.InvalidOperationException: "Operation is not valid due to the current state of the object."
+        /*public void AddRange(IEnumerable<User> users)
         {
             using (var connection = new SQLiteConnection(_db.DatabaseSource))
             {
@@ -79,7 +182,7 @@ namespace AlfaBank.DataAccess.Repositories
                     }
                 }
             }
-        }
+        }*/
 
         public List<User> GetAll()
         {
@@ -94,11 +197,12 @@ namespace AlfaBank.DataAccess.Repositories
                     connection.Open();
                     var dataReader = command.ExecuteReader();
 
-                    var user = new User();
                     while (dataReader.Read())
                     {
                         try
                         {
+                            var user = new User();
+
                             user.Id = dataReader.GetInt32(0);
                             user.FullName = dataReader.GetString(1);
                             user.Login = dataReader.GetString(2);

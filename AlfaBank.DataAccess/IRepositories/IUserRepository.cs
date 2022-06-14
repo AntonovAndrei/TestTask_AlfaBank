@@ -10,7 +10,7 @@ namespace AlfaBank.DataAccess.IRepositories
     public interface IUserRepository
     {
         List<User> GetAll();
-        void AddRange(IEnumerable<User> users);
+        //void AddRange(IEnumerable<User> users);
         Task AddAsync(User user);
         void Add(User user);
     }
