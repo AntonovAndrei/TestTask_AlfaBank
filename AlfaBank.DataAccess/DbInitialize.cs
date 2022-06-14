@@ -5,7 +5,7 @@ namespace AlfaBank.DataAccess
     public static class DbInitialize
     {
         private const string CreateTableQuery = @"CREATE TABLE IF NOT EXISTS [Users] (
-                                               [ID] INTEGER NOTNULL PRIMARY KEY AUTOINCREMENT,
+                                               [ID] INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
                                                [FullName] TEXT NOT NULL,
                                                [Login] TEXT NOT NULL,
                                                [RegistrationDate] TEXT  NOT NULL,

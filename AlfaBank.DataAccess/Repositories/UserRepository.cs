@@ -91,6 +91,7 @@ namespace AlfaBank.DataAccess.Repositories
                 {
                     command.CommandText = "Select * FROM Users";
 
+                    connection.Open();
                     var dataReader = command.ExecuteReader();
 
                     var user = new User();
