@@ -85,7 +85,7 @@ namespace AlfaBank.DataAccess.Repositories
             return user;
         }
 
-        // ne rabotaet
+        // fix parameters!!!
         public User Get(string fullName)
         {
             var user = new User();
@@ -94,8 +94,8 @@ namespace AlfaBank.DataAccess.Repositories
             {
                 using (var command = new SQLiteCommand(connection))
                 {
-                    command.CommandText = "Select * FROM Users WHERE FullName = @FullName";
-                    command.Parameters.Add(new SQLiteParameter("@FullName", AddQuotesToParameter(fullName)));
+                    command.CommandText = "Select * FROM Users WHERE FullName = " + "'" + fullName + "'";
+                    /*command.Parameters.Add(new SQLiteParameter("@FullName", "'" + fullName + "'"));*/
 
                     connection.Open();
                     var dataReader = command.ExecuteReader();
@@ -121,15 +121,15 @@ namespace AlfaBank.DataAccess.Repositories
             return user;
         }
 
-        // ne rabotaet
+        // fix parameters!!!
         public void Delete(User user)
         {
             using (var connection = new SQLiteConnection(_db.DatabaseSource))
             {
                 using (var command = new SQLiteCommand(connection))
                 { 
-                    command.CommandText = "UPDATE Users SET IsDeleted = 1 WHERE FullName = @FullName";
-                    command.Parameters.Add(new SQLiteParameter("@FullName", AddQuotesToParameter(user.FullName)));
+                    command.CommandText = "UPDATE Users SET IsDeleted = 1 WHERE FullName = " + "'" + user.FullName + "'";
+                    //command.Parameters.Add(new SQLiteParameter("@FullName", user.FullName));
 
                     connection.Open();
                     command.ExecuteNonQuery();
@@ -222,9 +222,9 @@ namespace AlfaBank.DataAccess.Repositories
             return users;                
         }
 
-        private string AddQuotesToParameter(string parameter)
+        private bool IsUserExist(User user)
         {
-            return "\"" + parameter + "\"";
+
         }
     }
 }
