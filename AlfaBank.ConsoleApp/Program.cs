@@ -10,27 +10,8 @@ namespace AlfaBank.ConsoleApp
         {
             UserRepository userRepository = new UserRepository();
 
-            userRepository.Add(new User()
-            {
-                FullName = "Leskov Pasha Sergeevich",
-                Login = "pasha@yandex.ru",
-                RegistrationDate = DateTime.Now,
-                IsDeleted = false
-            });
 
-            var users = userRepository.GetAll();
-
-            foreach (var user in users)
-            {
-                Console.WriteLine(user.Id + ":" + user.FullName + " " +
-                    user.Login + " " + user.RegistrationDate + " " + user.IsDeleted);
-            }
-
-            string path = @"D:\myFile.xlsx";
-
-            ExcelParser.SaveUsersToExcel(users, path);
-
-            /*var setUser = new User()
+            var setUser = new User()
             {
                 FullName = "Leskov Gena Yurievich",
                 Login = "gena@google.com",
@@ -38,7 +19,7 @@ namespace AlfaBank.ConsoleApp
                 IsDeleted = false
             };
 
-            userRepository.Add(setUser);
+            //userRepository.Add(setUser);
 
             var user = userRepository.Get(setUser.FullName);
 
@@ -50,7 +31,48 @@ namespace AlfaBank.ConsoleApp
             user = userRepository.Get(setUser.FullName);
 
             Console.WriteLine(user.Id + ":" + user.FullName + " " +
-                    user.Login + " " + user.RegistrationDate + " " + user.IsDeleted);*/
+                    user.Login + " " + user.RegistrationDate + " " + user.IsDeleted);
+
+
+
+
+            var users = userRepository.GetAll();
+
+            foreach (var u in users)
+            {
+                Console.WriteLine(u.Id + ":" + u.FullName + " " +
+                    u.Login + " " + u.RegistrationDate + " " + u.IsDeleted);
+            }
+
+            string path = @"D:\myFile.xlsx";
+
+            ExcelParser.SaveUsersToExcel(users, path);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             /*userRepository.AddRange(new List<User>()
             {

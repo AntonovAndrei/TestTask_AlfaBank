@@ -49,7 +49,7 @@ namespace AlfaBank.DataAccess.Repositories
             }
         }
 
-        // tohe podravit kak i s fukkname
+        
         public User Get(int id)
         {
             var user = new User();
@@ -76,7 +76,7 @@ namespace AlfaBank.DataAccess.Repositories
                         }
                         catch (Exception ex)
                         {
-                            Console.WriteLine("Error: " + ex.Message);
+                            Console.WriteLine(ex.Message);
                         }
                     }
                 }
@@ -94,8 +94,8 @@ namespace AlfaBank.DataAccess.Repositories
             {
                 using (var command = new SQLiteCommand(connection))
                 {
-                    command.CommandText = "Select * FROM Users WHERE FullName = '@FullName';";
-                    command.Parameters.Add(new SQLiteParameter("@FullName", fullName));
+                    command.CommandText = "Select * FROM Users WHERE FullName = @FullName";
+                    command.Parameters.Add(new SQLiteParameter("@FullName", AddQuotesToParameter(fullName)));
 
                     connection.Open();
                     var dataReader = command.ExecuteReader();
@@ -112,7 +112,7 @@ namespace AlfaBank.DataAccess.Repositories
                         }
                         catch (Exception ex)
                         {
-                            Console.WriteLine("Error: " + ex.Message);
+                            Console.WriteLine(ex.Message);
                         }
                     }
                 }
@@ -128,8 +128,8 @@ namespace AlfaBank.DataAccess.Repositories
             {
                 using (var command = new SQLiteCommand(connection))
                 { 
-                    command.CommandText = "UPDATE Users SET IsDeleted = 1 WHERE FullName = '@FullName';";
-                    command.Parameters.Add(new SQLiteParameter("@FullName", user.FullName));
+                    command.CommandText = "UPDATE Users SET IsDeleted = 1 WHERE FullName = @FullName";
+                    command.Parameters.Add(new SQLiteParameter("@FullName", AddQuotesToParameter(user.FullName)));
 
                     connection.Open();
                     command.ExecuteNonQuery();
@@ -137,7 +137,7 @@ namespace AlfaBank.DataAccess.Repositories
             }
         }
 
-        // ne rabotaet
+        
         public User Delete(int id)
         {
             using (var connection = new SQLiteConnection(_db.DatabaseSource))
@@ -213,13 +213,18 @@ namespace AlfaBank.DataAccess.Repositories
                         }
                         catch (Exception ex)
                         {
-                            Console.WriteLine("Error: " + ex.Message);
+                            Console.WriteLine(ex.Message);
                         }
                     }
                 }
             }
 
             return users;                
+        }
+
+        private string AddQuotesToParameter(string parameter)
+        {
+            return "\"" + parameter + "\"";
         }
     }
 }

@@ -41,15 +41,15 @@ namespace AlfaBank.DataAccess
                     if (!isDbHaveData)
                     {
                         // Insert entries in database table
-                        command.CommandText = "INSERT INTO Users (FullName, Login, RegistrationDate, IsDeleted) VALUES " +
-                            "('Petrov Petr Petrovich', 'petr@google.com', date('now'), 0)," +
-                            "('Vasiliev Vasiliy Vasilievich', 'vasya@google.com', '2021-11-29', 0)," +
-                            "('Antonov Anton Antonovich', 'anton@google.com', date('now'), 0)," +
-                            "('Ivanov Ivan Ivanovich', 'ivan@google.com', '2021-11-29', 0)," +
-                            "('Sidovrov Sidr Sidorovich', 'sidr@google.com', date('now'), 0)," +
-                            "('Dmitriy Agafonov Vasilievich', 'dmitriy@google.com', '2021-10-15', 0)," +
-                            "('Volkiv Volk Volkovich', 'auf@google.com', '2021-01-21', 0)," +
-                            "('Trofimov Trofim Trofimovich', 'trofim@google.com', date('now'), 0);";
+                        command.CommandText = @"INSERT INTO Users (FullName, Login, RegistrationDate, IsDeleted) VALUES 
+                                                ('Petrov Petr Petrovich', 'petr@google.com', date('now'), 0),
+                                                ('Vasiliev Vasiliy Vasilievich', 'vasya@google.com', '2021-11-29', 0),
+                                                ('Antonov Anton Antonovich', 'anton@google.com', date('now'), 0),
+                                                ('Ivanov Ivan Ivanovich', 'ivan@google.com', '2021-11-29', 0),
+                                                ('Sidovrov Sidr Sidorovich', 'sidr@google.com', date('now'), 0),
+                                                ('Dmitriy Agafonov Vasilievich', 'dmitriy@google.com', '2021-10-15', 0),
+                                                ('Volkiv Volk Volkovich', 'auf@google.com', '2021-01-21', 0),
+                                                ('Trofimov Trofim Trofimovich', 'trofim@google.com', date('now'), 0);";
                         command.ExecuteNonQuery();
                     }
                 }
