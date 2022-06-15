@@ -15,6 +15,12 @@ namespace AlfaBank.DataAccess.Repositories
 
         public void Add(User user)
         {
+            //if(IsUserExist(user)) { throw new Exception("Such a user already exists"); }
+            if (IsUserExist(user))
+            {
+                Console.WriteLine("Error! Such a user already exists");
+                return;
+            }
             using (var connection = new SQLiteConnection(_db.DatabaseSource))
             {
                 using (var command = new SQLiteCommand(connection))
@@ -33,6 +39,12 @@ namespace AlfaBank.DataAccess.Repositories
 
         public async Task AddAsync(User user)
         {
+            //if (IsUserExist(user)) { throw new Exception("Such a user already exists"); }
+            if (IsUserExist(user)) 
+            { 
+                Console.WriteLine("Error! Such a user already exists");
+                return;
+            }
             using (var connection = new SQLiteConnection(_db.DatabaseSource))
             {
                 using (var command = new SQLiteCommand(connection))
@@ -57,26 +69,24 @@ namespace AlfaBank.DataAccess.Repositories
             {
                 using (var command = new SQLiteCommand(connection))
                 {
-                    command.CommandText = "Select * FROM Users WHERE ID = @ID";
+                    command.CommandText = "SELECT * FROM Users WHERE ID = @ID";
                     command.Parameters.Add(new SQLiteParameter("@ID", id));
 
                     connection.Open();
                     var dataReader = command.ExecuteReader();
 
-                    while (dataReader.Read())
+                    dataReader.Read();
+                    try
                     {
-                        try
-                        {
-                            user.Id = dataReader.GetInt32(0);
-                            user.FullName = dataReader.GetString(1);
-                            user.Login = dataReader.GetString(2);
-                            user.RegistrationDate = dataReader.GetDateTime(3);
-                            user.IsDeleted = dataReader.GetInt32(4) == 0 ? false : true;
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine(ex.Message);
-                        }
+                        user.Id = dataReader.GetInt32(0);
+                        user.FullName = dataReader.GetString(1);
+                        user.Login = dataReader.GetString(2);
+                        user.RegistrationDate = dataReader.GetDateTime(3);
+                        user.IsDeleted = dataReader.GetInt32(4) == 0 ? false : true;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
                     }
                 }
             }
@@ -92,26 +102,24 @@ namespace AlfaBank.DataAccess.Repositories
             {
                 using (var command = new SQLiteCommand(connection))
                 {
-                    command.CommandText = "Select * FROM Users WHERE FullName = @FullName";
+                    command.CommandText = "SELECT * FROM Users WHERE FullName = @FullName";
                     command.Parameters.Add(new SQLiteParameter("@FullName", fullName));
 
                     connection.Open();
                     var dataReader = command.ExecuteReader();
 
-                    while (dataReader.Read())
+                    dataReader.Read();
+                    try
                     {
-                        try
-                        {
-                            user.Id = dataReader.GetInt32(0);
-                            user.FullName = dataReader.GetString(1);
-                            user.Login = dataReader.GetString(2);
-                            user.RegistrationDate = dataReader.GetDateTime(3);
-                            user.IsDeleted = dataReader.GetInt32(4) == 0 ? false : true;
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.WriteLine(ex.Message);
-                        }
+                        user.Id = dataReader.GetInt32(0);
+                        user.FullName = dataReader.GetString(1);
+                        user.Login = dataReader.GetString(2);
+                        user.RegistrationDate = dataReader.GetDateTime(3);
+                        user.IsDeleted = dataReader.GetInt32(4) == 0 ? false : true;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
                     }
                 }
             }
@@ -151,34 +159,6 @@ namespace AlfaBank.DataAccess.Repositories
             return Get(id);
         }
 
-        //System.InvalidOperationException: "Operation is not valid due to the current state of the object."
-        /*public void AddRange(IEnumerable<User> users)
-        {
-            using (var connection = new SQLiteConnection(_db.DatabaseSource))
-            {
-                using (var command = new SQLiteCommand(connection))
-                {
-                    string sqlCommand = "INSERT INTO Users (FullName, Login, RegistrationDate) VALUES " +
-                        "(@FullName, @Login, @RegistrationDate)";
-
-                    using (var transaction = connection.BeginTransaction())
-                    {
-                        connection.Open();
-                        foreach (var user in users)
-                        {
-                            command.CommandText = sqlCommand;
-                            command.Parameters.Add(new SQLiteParameter("@FullName", user.FullName));
-                            command.Parameters.Add(new SQLiteParameter("@Login", user.Login));
-                            command.Parameters.Add(new SQLiteParameter("@RegistrationDate", user.RegistrationDate));
-
-                            command.ExecuteNonQuery();
-                        }
-
-                        transaction.Commit();
-                    }
-                }
-            }
-        }*/
 
         public List<User> GetAll()
         {
@@ -218,9 +198,62 @@ namespace AlfaBank.DataAccess.Repositories
             return users;                
         }
 
+        public void Update(User user)
+        {
+            if (!IsUserExist(user.Id))
+            {
+                Console.WriteLine($"Error! There is no user with id: {user.Id}");
+                return;
+            }
+
+            using (var connection = new SQLiteConnection(_db.DatabaseSource))
+            {
+                using (var command = new SQLiteCommand(connection))
+                {
+                    command.CommandText = @"UPDATE Users 
+                                            SET FullName = @FullName, Login = @Login WHERE ID = @ID";
+                    command.Parameters.Add(new SQLiteParameter("@FullName", user.FullName));
+                    command.Parameters.Add(new SQLiteParameter("@Login", user.Login));
+                    command.Parameters.Add(new SQLiteParameter("@ID", user.Id));
+
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
         private bool IsUserExist(User user)
         {
+            using (var connection = new SQLiteConnection(_db.DatabaseSource))
+            {
+                using (var command = new SQLiteCommand(connection))
+                {
+                    command.CommandText = @"SELECT COUNT(*) FROM Users WHERE 
+                                                FullName = @FullName AND Login = @Login";
+                    command.Parameters.Add(new SQLiteParameter("@FullName", user.FullName));
+                    command.Parameters.Add(new SQLiteParameter("@Login", user.Login));
 
+                    connection.Open();
+                    if (Convert.ToInt32(command.ExecuteScalar()) >= 1) return true;
+                    else return false;
+                }
+            }
+        }
+
+        private bool IsUserExist(int id)
+        {
+            using (var connection = new SQLiteConnection(_db.DatabaseSource))
+            {
+                using (var command = new SQLiteCommand(connection))
+                {
+                    command.CommandText = @"SELECT COUNT(*) FROM Users WHERE ID = @ID";
+                    command.Parameters.Add(new SQLiteParameter("@ID", id));
+
+                    connection.Open();
+                    if (Convert.ToInt32(command.ExecuteScalar()) >= 1) return true;
+                    else return false;
+                }
+            }
         }
     }
 }

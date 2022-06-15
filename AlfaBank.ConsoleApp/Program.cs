@@ -13,15 +13,16 @@ namespace AlfaBank.ConsoleApp
 
             var setUser = new User()
             {
-                FullName = "Haritonov Gosha Mironovich",
-                Login = "gosha@google.com",
+                Id = 10,
+                FullName = "Ganz Gosha Mironovich",
+                Login = "ganz@google.com",
                 RegistrationDate = DateTime.Now,
                 IsDeleted = false
             };
 
-            userRepository.Add(setUser);
+            userRepository.Update(setUser);
 
-            var user = userRepository.Get(setUser.FullName);
+            /*var user = userRepository.Get(setUser.FullName);
 
             Console.WriteLine(user.Id + ":" + user.FullName + " " +
                     user.Login + " " + user.RegistrationDate + " " + user.IsDeleted);
@@ -31,7 +32,7 @@ namespace AlfaBank.ConsoleApp
             user = userRepository.Get(setUser.FullName);
 
             Console.WriteLine(user.Id + ":" + user.FullName + " " +
-                    user.Login + " " + user.RegistrationDate + " " + user.IsDeleted);
+                    user.Login + " " + user.RegistrationDate + " " + user.IsDeleted);*/
 
 
 
