@@ -13,13 +13,13 @@ namespace AlfaBank.ConsoleApp
 
             var setUser = new User()
             {
-                FullName = "Leskov Gena Yurievich",
-                Login = "gena@google.com",
+                FullName = "Haritonov Gosha Mironovich",
+                Login = "gosha@google.com",
                 RegistrationDate = DateTime.Now,
                 IsDeleted = false
             };
 
-            //userRepository.Add(setUser);
+            userRepository.Add(setUser);
 
             var user = userRepository.Get(setUser.FullName);
 
