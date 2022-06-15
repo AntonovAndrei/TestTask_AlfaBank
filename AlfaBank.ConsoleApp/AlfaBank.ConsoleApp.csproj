@@ -15,4 +15,8 @@
     <ProjectReference Include="..\AlfaBank.DataAccess\AlfaBank.DataAccess.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Excels\" />
+  </ItemGroup>
+
 </Project>

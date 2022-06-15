@@ -1,10 +1,9 @@
-﻿using AlfaBank.DataAccess.IRepositories;
-using AlfaBank.DataAccess.Models;
+﻿using AlfaBank.DataAccess.Models;
 using System.Data.SQLite;
 
 namespace AlfaBank.DataAccess.Repositories
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository
     {
         private readonly Database _db;
 
@@ -18,7 +17,7 @@ namespace AlfaBank.DataAccess.Repositories
             //if(IsUserExist(user)) { throw new Exception("Such a user already exists"); }
             if (IsUserExist(user))
             {
-                Console.WriteLine("Error! Such a user already exists");
+                Console.WriteLine("Error! Such user already exists");
                 return;
             }
             using (var connection = new SQLiteConnection(_db.DatabaseSource))
@@ -63,7 +62,7 @@ namespace AlfaBank.DataAccess.Repositories
                 
         public User Get(int id)
         {
-            var user = new User();
+            User user = new User();
 
             using (var connection = new SQLiteConnection(_db.DatabaseSource))
             {
@@ -75,18 +74,24 @@ namespace AlfaBank.DataAccess.Repositories
                     connection.Open();
                     var dataReader = command.ExecuteReader();
 
-                    dataReader.Read();
-                    try
+                    if (dataReader.Read())
                     {
-                        user.Id = dataReader.GetInt32(0);
-                        user.FullName = dataReader.GetString(1);
-                        user.Login = dataReader.GetString(2);
-                        user.RegistrationDate = dataReader.GetDateTime(3);
-                        user.IsDeleted = dataReader.GetInt32(4) == 0 ? false : true;
+                        try
+                        {
+                            user.Id = dataReader.GetInt32(0);
+                            user.FullName = dataReader.GetString(1);
+                            user.Login = dataReader.GetString(2);
+                            user.RegistrationDate = dataReader.GetDateTime(3);
+                            user.IsDeleted = dataReader.GetInt32(4) == 0 ? false : true;
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                        }
                     }
-                    catch (Exception ex)
+                    else
                     {
-                        Console.WriteLine(ex.Message);
+                        return null;
                     }
                 }
             }
@@ -108,18 +113,24 @@ namespace AlfaBank.DataAccess.Repositories
                     connection.Open();
                     var dataReader = command.ExecuteReader();
 
-                    dataReader.Read();
-                    try
+                    if (dataReader.Read())
                     {
-                        user.Id = dataReader.GetInt32(0);
-                        user.FullName = dataReader.GetString(1);
-                        user.Login = dataReader.GetString(2);
-                        user.RegistrationDate = dataReader.GetDateTime(3);
-                        user.IsDeleted = dataReader.GetInt32(4) == 0 ? false : true;
+                        try
+                        {
+                            user.Id = dataReader.GetInt32(0);
+                            user.FullName = dataReader.GetString(1);
+                            user.Login = dataReader.GetString(2);
+                            user.RegistrationDate = dataReader.GetDateTime(3);
+                            user.IsDeleted = dataReader.GetInt32(4) == 0 ? false : true;
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                        }
                     }
-                    catch (Exception ex)
+                    else
                     {
-                        Console.WriteLine(ex.Message);
+                        return null;
                     }
                 }
             }

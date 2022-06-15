@@ -14,10 +14,6 @@ namespace AlfaBank.DataAccess
 
         public Database()
         {
-            /*string filename = "databaseFile.db";
-            var directory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-
-            DatabaseFile = Path.Combine(directory, filename);*/
             DatabaseFile = "databaseFile.db";
             DatabaseSource = "data source=" + DatabaseFile;
 
