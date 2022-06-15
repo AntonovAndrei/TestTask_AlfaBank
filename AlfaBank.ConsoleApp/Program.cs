@@ -10,11 +10,27 @@ namespace AlfaBank.ConsoleApp
         {
             UserRepository userRepository = new UserRepository();
 
+            userRepository.Add(new User()
+            {
+                FullName = "Leskov Pasha Sergeevich",
+                Login = "pasha@yandex.ru",
+                RegistrationDate = DateTime.Now,
+                IsDeleted = false
+            });
 
+            var users = userRepository.GetAll();
 
+            foreach (var user in users)
+            {
+                Console.WriteLine(user.Id + ":" + user.FullName + " " +
+                    user.Login + " " + user.RegistrationDate + " " + user.IsDeleted);
+            }
 
+            string path = @"D:\myFile.xlsx";
 
-            var setUser = new User()
+            ExcelParser.SaveUsersToExcel(users, path);
+
+            /*var setUser = new User()
             {
                 FullName = "Leskov Gena Yurievich",
                 Login = "gena@google.com",
@@ -34,11 +50,7 @@ namespace AlfaBank.ConsoleApp
             user = userRepository.Get(setUser.FullName);
 
             Console.WriteLine(user.Id + ":" + user.FullName + " " +
-                    user.Login + " " + user.RegistrationDate + " " + user.IsDeleted);
-
-
-
-
+                    user.Login + " " + user.RegistrationDate + " " + user.IsDeleted);*/
 
             /*userRepository.AddRange(new List<User>()
             {
@@ -57,15 +69,6 @@ namespace AlfaBank.ConsoleApp
                 IsDeleted = false
             }
             });*/
-
-
-            /*var users = userRepository.GetAll();
-
-            foreach (var user in users)
-            {
-                Console.WriteLine(user.Id + ":" + user.FullName + " " +
-                    user.Login + " " + user.RegistrationDate + " " + user.IsDeleted);
-            }*/
         }
     }
 }
