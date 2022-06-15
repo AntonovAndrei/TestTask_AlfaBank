@@ -159,7 +159,6 @@ namespace AlfaBank.DataAccess.Repositories
             return Get(id);
         }
 
-
         public List<User> GetAll()
         {
             var users = new List<User>();

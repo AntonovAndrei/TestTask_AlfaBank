@@ -50,48 +50,6 @@ namespace AlfaBank.ConsoleApp
             ExcelParser.SaveUsersToExcel(users, path);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            /*userRepository.AddRange(new List<User>()
-            {
-                new User()
-                {
-                FullName = "Leskov Gena Yurievich",
-                Login = "gena@google.com",
-                RegistrationDate = DateTime.Now,
-                IsDeleted = false
-                },
-                new User()
-            {
-                FullName = "Leskov Pasha Sergeevich",
-                Login = "pasha@yandex.ru",
-                RegistrationDate = DateTime.Now,
-                IsDeleted = false
-            }
-            });*/
         }
     }
 }
