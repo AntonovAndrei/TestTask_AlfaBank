@@ -14,7 +14,7 @@ namespace AlfaBank.ConsoleApp
         /// <summary>
         /// Save users to excel file
         /// </summary>
-        /// <param name="users">User sheet to save to excel</param>
+        /// <param name="users">User list to save to excel</param>
         /// <param name="path">The full path to the file including its name and type</param>
         public static void SaveUsersToExcel(List<User> users,string path)
         {
@@ -38,13 +38,5 @@ namespace AlfaBank.ConsoleApp
 
             workbook.SaveAs(path);
         }
-
-        /*private static string ResolveFilePath(string filename)
-        {
-            string path = Directory.GetCurrentDirectory();
-            var directory = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            var csvFilePath = Path.Combine(directory, "csv-data");
-            return Path.Combine(csvFilePath, filename);
-        }*/
     }
 }

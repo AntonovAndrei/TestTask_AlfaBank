@@ -33,6 +33,7 @@ namespace AlfaBank.ConsoleApp
                 else if(command == "2")
                 {
                     var u = db.Delete(GetIdFromConsole());
+
                     if(u == null) Console.WriteLine("В бд нет пользователя с таким id.");
                     else Console.WriteLine("Удален:" + u.Id + ":" + u.FullName + " " +
                             u.Login + " " + u.RegistrationDate + " " + u.IsDeleted);
@@ -40,6 +41,7 @@ namespace AlfaBank.ConsoleApp
                 else if (command == "3")
                 {
                     var id = GetIdFromConsole();
+
                     var setUser = GetUserFromConsole();
                     setUser.Id = id;
 

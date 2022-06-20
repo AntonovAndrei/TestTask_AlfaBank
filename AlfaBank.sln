@@ -10,6 +10,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlfaBank.ConsoleApp", "Alfa
 		{CEC7358B-2997-4DB1-B050-52732B7F5898} = {CEC7358B-2997-4DB1-B050-52732B7F5898}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlfaBank.DataAccess.Tests", "AlfaBank.DataAccess.Tests\AlfaBank.DataAccess.Tests.csproj", "{AB8950CF-7F44-4016-9110-097DAE5D0B19}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CEC7358B-2997-4DB1-B050-52732B7F5898} = {CEC7358B-2997-4DB1-B050-52732B7F5898}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,6 +29,10 @@ Global
 		{542594E2-258D-4571-94B0-2D4DD0269403}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{542594E2-258D-4571-94B0-2D4DD0269403}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{542594E2-258D-4571-94B0-2D4DD0269403}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB8950CF-7F44-4016-9110-097DAE5D0B19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB8950CF-7F44-4016-9110-097DAE5D0B19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB8950CF-7F44-4016-9110-097DAE5D0B19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB8950CF-7F44-4016-9110-097DAE5D0B19}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
